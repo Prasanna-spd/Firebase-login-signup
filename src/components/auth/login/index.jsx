@@ -14,9 +14,17 @@ const Login = () => {
     const onSubmit = async (e) => {
         e.preventDefault()
         if(!isSigningIn) {
-            setIsSigningIn(true)
-            await doSignInWithEmailAndPassword(email, password)
-            // doSendEmailVerification()
+            try {
+                const userCredential = await doSignInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                const token = await user.getIdToken();
+                localStorage.setItem('userToken', token);
+            } catch (error) {
+                // TODO : Handle error 
+                console.error('Sign-in error:', error);
+            } finally {
+                setIsSigningIn(false);
+            }
         }
     }
 
@@ -24,7 +32,12 @@ const Login = () => {
         e.preventDefault()
         if (!isSigningIn) {
             setIsSigningIn(true)
-            doSignInWithGoogle().catch(err => {
+            doSignInWithGoogle().then((result) => {
+                const user = result.user;
+                const token = user.getIdToken();
+                localStorage.setItem('userToken', token);
+            }).catch(err => {
+                  // TODO : Handle error 
                 setIsSigningIn(false)
             })
         }
