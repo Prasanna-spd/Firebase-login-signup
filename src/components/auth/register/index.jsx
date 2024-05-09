@@ -13,8 +13,8 @@ const Register = () => {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [coverPhoto, setCoverPhoto] = useState("");
   const [gender, setGender] = useState("");
-  const [citizen, setCitizen] = useState("");
-  const [category, setCategory] = useState("");
+  const [citizen, setCitizen] = useState("Indian");
+  const [category, setCategory] = useState("UR");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +25,7 @@ const Register = () => {
     e.preventDefault();
     if (!isRegistering) {
       setIsRegistering(true);
-      await doCreateUserWithEmailAndPassword(email, password);
+      await doCreateUserWithEmailAndPassword(email, password, phoneNumber,profilePhoto,coverPhoto,gender,citizen,category);
     }
   };
 
@@ -34,7 +34,7 @@ const Register = () => {
       {userLoggedIn && <Navigate to={"/home"} replace={true} />}
 
       <main className="w-full h-screen flex self-center place-content-center place-items-center">
-        <div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl">
+        <div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl mt-20">
           <div className="text-center mb-6">
             <div className="mt-2">
               <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">
@@ -187,10 +187,25 @@ const Register = () => {
                 }}
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:indigo-600 shadow-sm rounded-lg transition duration-300"
               >
-                <option value="category1">UR</option>
-                <option value="category2">OBC</option>
-                <option value="category3">SC/ST</option>
+                <option value="UR">UR</option>
+                <option value="OBC">OBC</option>
+                <option value="SC/ST">SC/ST</option>
               </select>
+            </div>
+            <div>
+              <label className="text-sm text-gray-600 font-bold">
+                Password
+              </label>
+              <input
+                type="password"
+                autoComplete="tel"
+                required
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:indigo-600 shadow-sm rounded-lg transition duration-300"
+              />
+              
             </div>
 
             <button
